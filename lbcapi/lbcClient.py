@@ -33,6 +33,17 @@ def parseInfo(tradesData):
 
     return pricesList
 
+def cleanPrices(priceList):
+    maxval = max(priceList)
+    minval = min(priceList)
+
+    while  maxval - minval > 5000000:
+        index = priceList.index(maxval)
+        del priceList[index]
+        maxval = max(priceList)
+    
+    return priceList
+
 def calculateMean(priceList):
     nPrices = len(priceList)
     mean = float(sum(priceList)) / nPrices
@@ -50,7 +61,8 @@ def outputAsJSON(mean):
 def main():
     tradesData = apiCall(HMAC_KEY, HMAC_SECRET, CURRENCY, PAYMENT_METHOD, URL)
     priceList = parseInfo(tradesData)
-    mean = calculateMean(priceList)
+    priceListClean = cleanPrices(priceList)
+    mean = calculateMean(priceListClean)
     print(outputAsJSON(mean))
     return outputAsJSON(mean)
 
