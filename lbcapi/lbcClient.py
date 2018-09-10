@@ -5,13 +5,13 @@ import numpy as np
 
 HMAC_KEY = "dadd31167030f944efba3a55a75bb113"
 HMAC_SECRET = "5f19cfe858e05875378920e9aaab62cc9132d2533569c0d9508944b14f0535bf"
-CURRENCY = "VEF"
+CURRENCY = "VES"
 PAYMENT_METHOD = "transfers-with-specific-bank"
 URL = "https://localbitcoins.com/sell-bitcoins-online/" + \
     CURRENCY + "/" + PAYMENT_METHOD + "/.json"
 PATH = '/home/oneberenjena/Documents/KryptoPay/kryptoPayBeta/src/assets/fees/'
 pattern = re.compile(
-    "^.*(mercantil|Mercantil|MERCANTIL|banesco|Banesco|BANESCO).*$")
+    "^.*(mercantil|Mercantil|MERCANTIL|M E R C A N T I L|m e r c a n t i l|banesco|Banesco|BANESCO).*$")
 
 
 def apiCall(hmac_key, hmac_secret, currency, payment_method, url):
@@ -21,6 +21,9 @@ def apiCall(hmac_key, hmac_secret, currency, payment_method, url):
     if tradesData.status_code != 200:
         return None
 
+    print("?////////////////////////////////////////////////////////////////////")
+    print(tradesData.json())
+    print("?////////////////////////////////////////////////////////////////////")
     return tradesData.json()
 
 
@@ -33,7 +36,7 @@ def parseInfo(tradesData):
         tradeInfo = trade['data']
         if bool(pattern.match(tradeInfo['bank_name'])):
             pricesList.append(float(tradeInfo['temp_price']))
-
+    
     print(pricesList)
     return pricesList
 
@@ -43,7 +46,7 @@ def getCoef(priceList):
     sd = np.std(priceList)
     coef = 0
 
-    while mean - coef*sd < 5000000:
+    while mean - coef*sd < 50:
         coef += 0.1
 
     return coef
