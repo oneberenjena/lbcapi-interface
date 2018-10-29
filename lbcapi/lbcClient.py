@@ -1,4 +1,4 @@
-import lbcApi as lbc
+from lbcapi import lbcApi as lbc
 import json
 import re
 import numpy as np
@@ -12,8 +12,7 @@ URL = "https://localbitcoins.com/sell-bitcoins-online/" + \
 PATH = '/home/oneberenjena/Documents/KryptoPay/kryptoPayBeta/src/assets/fees/'
 pattern = re.compile(
     "^.*(mercantil|Mercantil|MERCANTIL|M E R C A N T I L|m e r c a n t i l|banesco|Banesco|BANESCO).*$")
-
-
+    
 def apiCall(hmac_key, hmac_secret, currency, payment_method, url):
     connection = lbc.hmac(HMAC_KEY, HMAC_SECRET)
     tradesData = connection.call("GET", url)

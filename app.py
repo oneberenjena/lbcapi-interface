@@ -1,4 +1,4 @@
-import lbcapi.lbcClient as lbc
+import lbcapi.lbcClient as lbcl
 from flask import Flask, request
 import json
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def index():
     if request.method == 'GET':
-        return lbc.main()
+        return lbcl.main()
     else:
         return json.dumps({
             'error': "Cannot get BTC price mean"
